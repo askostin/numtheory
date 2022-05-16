@@ -1,7 +1,13 @@
 import math
 from . import dividers
 
-def primes_quantity(n) :
+def is_prime(n: int) :
+        """
+        Check if the number is a prime.
+        """
+        pass        
+
+def primes_quantity(n: int) :
 	"""
 	primes_q : N -> N
 	Finds a quantity of prime numbers in the interval [1..@n].

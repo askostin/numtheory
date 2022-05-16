@@ -1,5 +1,10 @@
 import math
 
+def gcd(a, b: int) -> int:
+        if ((a < 0) or (b < 0)) :
+                raise ValueError('Both numbers have to be non-negative integers.')
+        else :
+	        return a if (b == 0) else gcd(b, a % b)
 
 def dividers_all(num):
 	"""
