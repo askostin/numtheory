@@ -1,4 +1,7 @@
-import math
+def gcd(a, b):
+	return a if (b == 0) else gcd(b, a % b)
+
+''' import math
 
 def gcd(a, b):
 	"""
@@ -24,3 +27,4 @@ def gcd_eucl(n1, n2):
 		return n2
 	else :
 		return gcd_eucl(n2 % n1, n1)
+'''
