@@ -2,17 +2,27 @@ import math
 from . import dividers
 
 def is_prime(n: int) :
-        """
-        Check if the number is a prime.
-        """
-        pass        
+	"""
+	Check if the number is a prime.
+	"""
+	if n < 2 :
+		raise ValueError("Input should be integer not less than 2.")
+	elif [2, 3].count(n) :
+		return True
+	elif (n % 2 == 0) :
+		return False
+	else :
+		for i in range (5, n, 2) :
+			if (n % i == 0) :
+				return False
+		return True
 
 def primes_quantity(n: int) :
 	"""
 	primes_q : N -> N
-	Finds a quantity of prime numbers in the interval [1..@n].
+	Finds a quantity of prime numbers in the interval [2..@n].
 	"""
-	if (n >= 1) and (n <= 3):
+	if [2, 3].count(n):
 		return n - 1
 	else :
 		if (n % 2 == 0):
@@ -23,19 +33,19 @@ def primes_quantity(n: int) :
 				if (n == dividers.divider_min(n)):
 					q += 1
 
-def primes_list(n: int):
+def primes(n: int, method = 'general'):
 	"""
 	primes : N -> listof(N)
-	For natural @n >= 1 returns all primes in the interval [1, n].
+	For natural @n >= 1 returns all primes in the interval [2, n].
 	"""
 	if (n <= 1):
 		return -1
-	elif (n <= 1000):
-		return primes_list_by_sieve(n)
+	elif (n <= 1000) or (method == 'sieve'):
+		return primes_by_sieve(n)
 	else :
 		L = math.floor(math.sqrt(n))
 		# Create list of primes up to the maximal value, which can be divider in the two-part multiplication @max_prime*@max_prime <= n
-		primes_lst = primes_list_by_sieve(L)
+		primes_lst = primes_by_sieve(L)
 		# print(primes_list) ### DELETE
 		# Process the intervals [k*L + 1, k*L + L], k = 1..L-1
 		for k in range (1, L):
@@ -47,7 +57,7 @@ def primes_list(n: int):
 			# print(nondivisibles_in_interval(L*L + 1, n, primes_list)) ### DELETE
 		return primes_lst
 
-def primes_list_by_sieve(n: int):
+def primes_by_sieve(n: int):
 	"""
 	primes_list_by_sieve : N -> listof(N)
 	For @n >=2 finds all prime numbers in the range [2, n] by the classical "Sieve of Eratosthenes" method.
@@ -68,13 +78,6 @@ def primes_list_by_sieve(n: int):
 			if A[k]:
 				primes_lst.append(k)
 		return(primes_lst)
-
-#def primes(n) :
-	"""
-	primes : N -> listof(N)
-	primes(n) creates list of all prime numbers in the interval [1..n], n > 1.
-	"""
-	# ...
 
 #def build_SternBrocot_list(level: int, drop_inf = False): 
 	"""
