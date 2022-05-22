@@ -44,17 +44,15 @@ def primes(n: int, method = 'general'):
 		return primes_by_sieve(n)
 	else :
 		L = math.floor(math.sqrt(n))
-		# Create list of primes up to the maximal value, which can be divider in the two-part multiplication @max_prime*@max_prime <= n
+		# Create list of primes up to the maximal value, which can be divider
+		# in the two-part multiplication @max_prime*@max_prime <= n.
 		primes_lst = primes_by_sieve(L)
-		# print(primes_list) ### DELETE
 		# Process the intervals [k*L + 1, k*L + L], k = 1..L-1
 		for k in range (1, L):
 			primes_lst += dividers.nondivisibles_in_interval(k*L + 1, (k + 1)*L, primes_lst)
-			# print(nondivisibles_in_interval(k*L + 1, (k + 1)*L, primes_list)) ### DELETE
 		# process the interval [L*L + 1, n]
 		if (L*L < n):
 			primes_lst += dividers.nondivisibles_in_interval(L*L + 1, n, primes_lst)
-			# print(nondivisibles_in_interval(L*L + 1, n, primes_list)) ### DELETE
 		return primes_lst
 
 def primes_by_sieve(n: int):
@@ -79,24 +77,55 @@ def primes_by_sieve(n: int):
 				primes_lst.append(k)
 		return(primes_lst)
 
-#def build_SternBrocot_list(level: int, drop_inf = False): 
+def SternBrocot_list(level: int, seq_type = 'Stern-Brocot', drop_inf = False):
 	"""
-	build_SternBrocot_list : N, bool -> listof((N, N))
-	build_SternBrocot_list(level, drop_inf) creates list of fractions, based on Stern-Brocot tree:
-		- level (int) -
-		- drop_inf (bool, default = False) - should we remove the tuple (1, 0), i.e. fraction 1/0 = infinity, from the output list.
+	SternBrocot_list : N, str, bool -> listof((N, N))
+	SternBrocot_list(level, drop_inf) creates list of fractions, based on Stern-Brocot tree (in the interval [0, +inf]) or Farray sequence (in the interval [0, 1]):
+		- level (int) - depth of the tree, number of iterations when we insert new fractions;
+		- seq_type (str) - 'Stern-Brocot' (default) or 'Farray' sequence (list) to build;
+		- drop_inf (bool, default = False) - should we remove the tuple (1, 0)  (by definition, fraction 1/0 = +infinity) from Stern-Brocot output sequence.
 	Representation:
 		Fraction m/n is represented by tuple (m, n).
 	Examples:
+	1. For SternBrocot tree:
 		- list for level 0 tree: [(0, 1), (1, 0)]
 		- list for level 1 tree: [(0, 1), (1, 1), (1, 0)]
-		- list for level 2 tree: [(0, 1), (1, 2), (1, 1), (2, 1), (1, 0)]l
+		- list for level 2 tree: [(0, 1), (1, 2), (1, 1), (2, 1), (1, 0)]
+	2. For Farray sequence:
+		- list for level 0 tree: [(0, 1), (1, 1)]
+		- list for level 1 tree: [(0, 1), (1, 2), (1, 1)]
+		- list for level 2 tree: [(0, 1), (1, 3), (1, 1), (2, 3), (1, 1)]
 	Algorithm:
 		Between each two adjacent tuples (m, n) and (m', n') we place the new tuple (m + m', n + n').
 	"""
 
-#    lst = [(0, 1), (1, 0)]
-#    if level < 0 :
-#        return ("Level should be >= 0")
-#    else :
-#        ...
+	def insert_tuples(lst: list, n: int) :
+		if (n == 0) :
+			return lst
+		else :
+			iterations = len(lst) - 1
+			new_tuples = []
+			for i in range(iterations) :
+				nom = lst[i][0] + lst[i+1][0]
+				den = lst[i][1] + lst[i+1][1]
+				gcd = dividers.gcd(nom, den)
+				nom = int(nom / gcd)
+				den = int(den / gcd)
+				new_tuples.append( (nom, den) )
+			new_lst = []
+			for i in range(iterations) :
+				new_lst = new_lst + [lst[i], new_tuples[i]]
+			new_lst.append(lst[-1])
+			return insert_tuples(new_lst, n-1)
+
+	if level < 0 :
+		return ("Level should be >= 0")
+	else :
+		if (seq_type == 'Farray') :
+			lst = [(0, 1), (1, 1)]
+			result = insert_tuples(lst, level)
+		elif (seq_type == 'Stern-Brocot') :
+			lst = [(0, 1), (1, 0)]
+			result = insert_tuples(lst, level)
+			result = result[:-1] if drop_inf else result
+		return result

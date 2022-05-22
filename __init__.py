@@ -1,1 +1,1 @@
-# __all__ = ["gcd", "dividers", "primes"]
+__all__ = ["dividers", "primes"]

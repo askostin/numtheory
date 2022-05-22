@@ -1,1 +1,1 @@
-from . import gcd, dividers, primes
+from . import dividers, primes
