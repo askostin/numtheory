@@ -103,20 +103,38 @@ def evenize(n:int):
 	else:
 		return -1
 
-def float_precision(number: float) -> int:
+def float_precision(num: float) -> int:
 	"""
 	Find number of digits on the right sight of the decimal point.
 	"""
-	max_precision = 16
-	number_whole_part = math.trunc(number)
-	...
+	if (num == math.trunc(num)):
+		return 0
+	else :
+		string_form = str(num)
+		num_parts = string_form.partition('.')
+	return len(num_parts[2])
 
-def float2fraction(number: float) -> tuple:
+def float2frac(num: float) -> tuple:
 	"""
 	Converts decimal number to rational fraction in the form of tuple (n, d), where n and d are mutually prime.
+	Analog of standard library function float.as_integer_ratio()
 	"""
-	number_whole_part = math.trunc(number)
-	number_fraction_part = abs(number - number_whole_part)
+	if (num == math.trunc(num)):
+		return (int(num), 1)
+	else :
+		sign = 1 if (num >= 0) else -1
+		string_form = str(abs(num))
+		num_parts = string_form.partition('.')
+		whole = int(num_parts[0])
+		frac = int(num_parts[2])
+		frac_digits = len(num_parts[2])
+		d = 10**frac_digits
+		n = (d * whole + frac)
+		gcd_nd = gcd(n, d)
+		if (gcd_nd != 1) :
+			n /= gcd_nd
+			d /= gcd_nd
+		return (int(sign*n), int(d))
 
 def SternBrocot_list(level: int, seq_type = 'Stern-Brocot', drop_inf = False):
 	"""
