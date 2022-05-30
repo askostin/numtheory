@@ -1,23 +1,23 @@
 import math
 from . import dividers
 
-def is_prime(n: int) :
+def is_prime(n: int):
 	"""
 	Check if the number is a prime.
 	"""
-	if n < 2 :
+	if n < 2:
 		raise ValueError("Input should be integer not less than 2.")
-	elif [2, 3].count(n) :
+	elif [2, 3].count(n):
 		return True
-	elif (n % 2 == 0) :
+	elif (n % 2 == 0):
 		return False
 	else :
-		for i in range (5, n, 2) :
-			if (n % i == 0) :
+		for i in range (5, n, 2):
+			if (n % i == 0):
 				return False
 		return True
 
-def primes_quantity(n: int) :
+def primes_quantity(n: int):
 	"""
 	primes_q : N -> N
 	Finds a quantity of prime numbers in the interval [2..@n].
@@ -76,3 +76,25 @@ def primes_by_sieve(n: int):
 			if A[k]:
 				primes_lst.append(k)
 		return(primes_lst)
+
+def phi_euler(m: int) -> int:
+	"""
+	Euler phi function phi(@m) returns quantity of whole numbers in the set {0, 1,... , m - 1}, which are mutually prime with @m.
+	Examples:
+	phi(1) = 1
+	phi(p) = p - 1 (p is a prime number)
+	phi(p^k) = p^{k} - p^{k-1}
+	phi(m) = m * \prod_{p\m} (1 - 1/p)
+	"""
+	if m < 0:
+		raise ValueError("Input should be positive integer.")
+	elif (m == 1 or m == 2):
+		return 1
+	else:
+		prime_dividers = primes(m-1)
+		n = 1
+		d = 1
+		for p in prime_dividers: # Fix code here
+			n *= p-1
+			d *= p
+		return int(n*m/d)

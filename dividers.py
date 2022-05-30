@@ -1,15 +1,32 @@
 import math
 
 def gcd(a, b: int) -> int:
-        if ((a < 0) or (b < 0)) :
-                raise ValueError('Both numbers have to be non-negative integers.')
-        else :
-	        return a if (b == 0) else gcd(b, a % b)
+	if ((a < 0) or (b < 0)):
+		raise ValueError('Both numbers have to be non-negative integers.')
+	else:
+		return a if (b == 0) else gcd(b, a % b)
 
-def dividers_all(num):
+def simplify_frac(pair: tuple) -> tuple:
+	"""
+	For pair (a, b) of two integers (b > 0), which represents fraction a/b, return simplified fraction, where nominator and denominator are divided to their GCD.
+	"""
+	n = pair[0]
+	d = pair[1]
+	if ((type(n) != int) or (type(d) != int) or (d < 0)):
+		raise ValueError('Both numbers in pair have to be integers, the second should be positive.')
+	elif (d == 0):
+		return (1, 0)
+	else:
+		sign = -1 if (n < 0) else 1
+		gcd_nd = gcd(n, d)
+		if (gcd_nd != 1):
+			n /= gcd_nd
+			d /= gcd_nd
+		return (int(sign * n), int(d))
+
+def dividers(num):
 	"""
 	dividers : int -> listof(int)
-
 	Returns sorted list of all prime dividers of the input number.
 	"""
 	# Elementary case
@@ -25,7 +42,6 @@ def dividers_all(num):
 def divider_min(n):
 	"""
 	divider_min : int -> int/string
-
 	Returns the smallest divider (>=1) of the input number (>1). If the number is prime, return an empty string ''.
 	"""
 	if ((n % 2) == 0):
@@ -43,7 +59,6 @@ def divider_min(n):
 def dividers2(num):
 	"""
 	dividers2 : N -> listof(list(N N))
-
 	Returns the list of pairs [@d @p], where @d is a prime divider, and @p is the maximium power, where @d**@p is still a divider of @num.
 	"""
 	dvs = dividers_all(num)
@@ -52,10 +67,9 @@ def dividers2(num):
 		s = s + [[d, len(list(filter(lambda x: x == d, dvs)))]]
 	return sorted(s)
 
-def nondivisibles_in_interval(start:int, end:int, dividers):
+def nondivisibles_in_interval(start: int, end: int, dividers):
 	"""
 	nondivisibles_in_interval(N N listof(N)) -> listof(N)
-
 	Returns list of all numbers in the interval [@start, @end], where each number cannot be divided to any number from @dividers list.
 	There is no repeats in @dividers, this list is sorted in the ascending order, all elements are integers >= 2.
 	"""
@@ -78,10 +92,9 @@ def nondivisibles_in_interval(start:int, end:int, dividers):
 	return d_list
 
 
-def find_first_divisible(start:int, end:int, div:int):
+def find_first_divisible(start: int, end: int, div: int):
 	"""
 	find_first_divisible : N N N -> N or False
-
 	Find the first number in the interval [@start, @end] which is divisible to @div.
 	"""
 	for n in range(start, end + 1):
@@ -89,14 +102,14 @@ def find_first_divisible(start:int, end:int, div:int):
 			return n
 	return False
 
-def oddize(n:int):
+def oddize(n: int):
 	if ((0 <= n) and (n <= 9)):
 		n = (n + 1) if (n%2 == 0) else n
 		return n
 	else:
 		return -1
 
-def evenize(n:int):
+def evenize(n: int):
 	if ((0 <= n) and (n <= 9)):
 		n = n if (n%2 == 0) else n + 1
 		return n
@@ -130,11 +143,7 @@ def float2frac(num: float) -> tuple:
 		frac_digits = len(num_parts[2])
 		d = 10**frac_digits
 		n = (d * whole + frac)
-		gcd_nd = gcd(n, d)
-		if (gcd_nd != 1) :
-			n /= gcd_nd
-			d /= gcd_nd
-		return (int(sign*n), int(d))
+		return simplify_frac(n, d)
 
 def SternBrocot_list(level: int, seq_type = 'Stern-Brocot', drop_inf = False):
 	"""
@@ -158,38 +167,33 @@ def SternBrocot_list(level: int, seq_type = 'Stern-Brocot', drop_inf = False):
 		Between each two adjacent tuples (m, n) and (m', n') we place the new tuple (m + m', n + n').
 	"""
 
-	def insert_tuples(lst: list, n: int) :
-		if (n == 0) :
+	def insert_tuples(lst: list, n: int):
+		if (n == 0):
 			return lst
 		else :
 			iterations = len(lst) - 1
 			new_tuples = []
-			for i in range(iterations) :
-				nom = lst[i][0] + lst[i+1][0]
-				den = lst[i][1] + lst[i+1][1]
-				this_gcd = gcd(nom, den)
-				nom = int(nom / this_gcd)
-				den = int(den / this_gcd)
-				new_tuples.append( (nom, den) )
+			for i in range(iterations):
+				new_tuples.append( simplify_frac(nom, den) )
 			new_lst = []
-			for i in range(iterations) :
+			for i in range(iterations):
 				new_lst = new_lst + [lst[i], new_tuples[i]]
 			new_lst.append(lst[-1])
 			return insert_tuples(new_lst, n-1)
 
-	if level < 0 :
+	if level < 0:
 		return ("Level should be >= 0")
 	else :
-		if (seq_type == 'Farray') :
+		if (seq_type == 'Farray'):
 			lst = [(0, 1), (1, 1)]
 			result = insert_tuples(lst, level)
-		elif (seq_type == 'Stern-Brocot') :
+		elif (seq_type == 'Stern-Brocot'):
 			lst = [(0, 1), (1, 0)]
 			result = insert_tuples(lst, level)
 			result = result[:-1] if drop_inf else result
 		return result
 
-def encode_sternbrocot(number, limit_length = True, max_length = 20) :
+def encode_sternbrocot(number, limit_length = True, max_length = 20):
 	"""
 	encode_sternbrocot : number, limit_length, max_length -> stringof(S)
 	encode_sternbrocot : int/float/tuple, bool, int -> stringof(sym)
@@ -198,21 +202,19 @@ def encode_sternbrocot(number, limit_length = True, max_length = 20) :
 			* integer number,
 			* float number,
 			* tuple (m, n), which represents the rational fraction m/n;
-		- limit_length - whether we should constraint 
+		- limit_length - whether we should constraint,
 		- S = {'L', 'R'}.
 	Write 'path' to a input fraction through the Stern-Brocot tree, where 'L' is for 'left', 'R' is for 'right'.
 	"""
-	def convert_pair(pair: tuple) :
+	def convert_pair(pair: tuple):
 		m = pair[0]
 		n = pair[1]
-		if (n == 0) :
+		if (n == 0):
 			return 'RRR...'
-		this_gcd = gcd(m, n)
-		m = m / this_gcd
-		n = n / this_gcd
+		m, n = simplify_frac(pair)
 		code = ''
-		while (m != n) :
-			if (m < n) :
+		while (m != n):
+			if (m < n):
 				code += 'L'
 				n = n - m
 			else :
@@ -220,26 +222,40 @@ def encode_sternbrocot(number, limit_length = True, max_length = 20) :
 				m = m - n
 		return code
 
-	if ((type(number) is tuple and len(number) == 2) :
+	if ((type(number) is tuple) and (len(number) == 2)):
 		return convert_pair(number)
-	elif (type(number) is int) :
+	elif (type(number) is int):
 		return convert_pair((number, 1))
 	elif ((type(number) is float) and (number == math.floor(number))) :
 		return convert_pair((int(number), 1))
-	elif (type(number) is float) :
-		# 
-		code = ''
-		depth = 0
-		if (number < 1) :
-			code += 'L'
-			number = number / (1 - number)
-		elif (number > 1) :
-			code += 'R'
-			number = number / (number - 1)
-		else :
-			return code
-		# нужно дать ограничение на точность
-	else :
+	elif (type(number) is float):
+		return convert_pair(float2frac(number))
+	else:
 		print("Input number should not be negative, and have to be integer, float, or rational fraction represented by tuple (m, n), where m and n are non-negative integers.")
 
+
+def decode_sternbrocot(code: str) -> float:
+	"""
+	Convert code for number in Stern-Brocot tree in the form 'LRRLRLLL...' back to the number itself.
+	"""
+	left_number = (0, 1)
+	curr_number = (1, 1)
+	right_number = (1, 0)
+
+	for s in code:
+		if (s.upper() == 'R'):
+			adj_number = right_number
+			left_number = curr_number
+		elif (s.upper() == 'L'):
+			adj_number = left_number
+			right_number = curr_number
+		else:
+			raise ValueError("Wrong code! Only 'L' and 'R' symbols are allowed.")
+
+		curr_number = simplify_frac((curr_number[0] + adj_number[0],
+									 curr_number[1] + adj_number[1]))
+
+	return curr_number
+
+# Propositions:
 # Create function for maximal simplification of comparison by module based on eq. (4.37)-(4.40) from "Concrete Math"
