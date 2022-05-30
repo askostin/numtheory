@@ -24,7 +24,7 @@ def simplify_frac(pair: tuple) -> tuple:
 			d /= gcd_nd
 		return (int(sign * n), int(d))
 
-def dividers(num):
+def dividers(num: int):
 	"""
 	dividers : int -> listof(int)
 	Returns sorted list of all prime dividers of the input number.
@@ -36,10 +36,10 @@ def dividers(num):
 	else :
 		d = divider_min(num)
 		s = [d]
-		return sorted([d] + dividers_all(num/d))
+		return sorted([d] + dividers(int(num/d)))
 
 
-def divider_min(n):
+def divider_min(n: int) -> int:
 	"""
 	divider_min : int -> int/string
 	Returns the smallest divider (>=1) of the input number (>1). If the number is prime, return an empty string ''.
@@ -56,12 +56,12 @@ def divider_min(n):
 		return n
 
 
-def dividers2(num):
+def dividers2(num: int):
 	"""
 	dividers2 : N -> listof(list(N N))
 	Returns the list of pairs [@d @p], where @d is a prime divider, and @p is the maximium power, where @d**@p is still a divider of @num.
 	"""
-	dvs = dividers_all(num)
+	dvs = dividers(num)
 	s = []
 	for d in list(set(dvs)):
 		s = s + [[d, len(list(filter(lambda x: x == d, dvs)))]]
