@@ -91,10 +91,10 @@ def phi_euler(m: int) -> int:
 	elif (m == 1 or m == 2):
 		return 1
 	else:
-		prime_dividers = primes(m-1)
+		prime_dividers = [pair[0] for pair in dividers.dividers2(m)]
 		n = 1
 		d = 1
 		for p in prime_dividers: # Fix code here
 			n *= p-1
 			d *= p
-		return int(n*m/d)
+		return (n*m)//d
