@@ -36,19 +36,18 @@ def test_primes():
 	print(primes.primes(4000, 'sieve'))
 
 
-def test_is_prime(n: int) :
-	if n < 0 :
+def test_is_prime(n: int):
+	if n < 0:
 		raise ValueError("Enter positive integer")
 	lst = primes.primes(n)
 	primes_len = len(lst)
 	
 	counter = 0
-	for i in lst :
-		if primes.is_prime(i) :
+	for i in lst:
+		if primes.is_prime(i):
 			counter += 1
-	if counter == primes_len :
+	if counter == primes_len:
 		print("is_prime() function works correctly.")
 		print(lst)
 	else :
 		print("is_prime() function has bugs.")
-			

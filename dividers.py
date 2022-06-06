@@ -259,3 +259,44 @@ def decode_sternbrocot(code: str) -> float:
 
 # Propositions:
 # Create function for maximal simplification of comparison by module based on eq. (4.37)-(4.40) from "Concrete Math"
+
+def phi(m: int) -> int:
+	"""
+	Euler phi function phi(@m) returns quantity of whole numbers in the set {0, 1,... , m - 1}, which are mutually prime with @m.
+	Examples:
+	phi(1) = 1
+	phi(p) = p - 1 (p is a prime number)
+	phi(p^k) = p^{k} - p^{k-1}
+	phi(m) = m * \prod_{p\m} (1 - 1/p)
+	"""
+	if m < 0:
+		raise ValueError("Input should be positive integer.")
+	elif (m == 1 or m == 2):
+		return 1
+	else:
+		prime_dividers = [pair[0] for pair in dividers2(m)]
+		n = 1
+		d = 1
+		for p in prime_dividers: # Fix code here
+			n *= p-1
+			d *= p
+		return (n*m)//d
+
+def mu(m: int) -> int:
+	"""
+	Möbius mu function mu(@m).
+	"""
+	if m < 0:
+		raise ValueError("Input should be positive integer.")
+	elif (m == 1):
+		return 1
+	else:
+		all_dividers = dividers2(m)
+		dividers_powers = [pair[1] for pair in all_dividers]
+		tmp = 1
+		for pow in dividers_powers:
+			tmp *= pow
+		if tmp == 1:
+			return (-1)**(len(all_dividers) % 2)
+		else:
+			return 0
