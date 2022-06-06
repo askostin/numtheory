@@ -51,3 +51,7 @@ def test_is_prime(n: int):
 		print(lst)
 	else :
 		print("is_prime() function has bugs.")
+
+if __name__ == '__main__':
+	test_primes()
+	test_is_prime(1000)

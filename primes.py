@@ -90,7 +90,7 @@ def prime_dividers(num: int):
 		return []
 	# Find the minimal divider @d of @num and unite it with recursively founded dividers of @num/@d.
 	else :
-		d = divider_min(num)
+		d = dividers.divider_min(num)
 		s = [d]
 		return sorted([d] + prime_dividers(int(num/d)))
 
