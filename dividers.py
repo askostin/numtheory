@@ -1,10 +1,12 @@
 import math
 
+
 def gcd(a, b: int) -> int:
 	if ((a < 0) or (b < 0)):
 		raise ValueError('Both numbers have to be non-negative integers.')
 	else:
 		return a if (b == 0) else gcd(b, a % b)
+
 
 def simplify_frac(pair: tuple) -> tuple:
 	"""
@@ -24,25 +26,30 @@ def simplify_frac(pair: tuple) -> tuple:
 			d /= gcd_nd
 		return (int(sign * n), int(d))
 
-def dividers(num: int):
+
+def float2frac(num: float) -> tuple:
 	"""
-	dividers : int -> listof(int)
-	Returns sorted list of all prime dividers of the input number.
+	Converts decimal number to rational fraction in the form of tuple (n, d), where n and d are mutually prime.
+	Analog of standard library function float.as_integer_ratio()
 	"""
-	# Elementary case
-	if (num == 1):
-		return []
-	# Find the minimal divider @d of @num and unite it with recursively founded dividers of @num/@d.
+	if (num == math.trunc(num)):
+		return (int(num), 1)
 	else :
-		d = divider_min(num)
-		s = [d]
-		return sorted([d] + dividers(int(num/d)))
+		sign = 1 if (num >= 0) else -1
+		string_form = str(abs(num))
+		num_parts = string_form.partition('.')
+		whole = int(num_parts[0])
+		frac = int(num_parts[2])
+		frac_digits = len(num_parts[2])
+		d = 10**frac_digits
+		n = (d * whole + frac)
+		return simplify_frac(n, d)
 
 
 def divider_min(n: int) -> int:
 	"""
 	divider_min : int -> int/string
-	Returns the smallest divider (>=1) of the input number (>1). If the number is prime, return an empty string ''.
+	Returns the smallest divider (>1) of the input number (>1). If the number is prime, return an empty string ''.
 	"""
 	if ((n % 2) == 0):
 		return 2
@@ -55,17 +62,6 @@ def divider_min(n: int) -> int:
 				d += 2
 		return n
 
-
-def dividers2(num: int):
-	"""
-	dividers2 : N -> listof(list(N N))
-	Returns the list of pairs [@d @p], where @d is a prime divider, and @p is the maximium power, where @d**@p is still a divider of @num.
-	"""
-	dvs = dividers(num)
-	s = []
-	for d in list(set(dvs)):
-		s = s + [[d, len(list(filter(lambda x: x == d, dvs)))]]
-	return sorted(s)
 
 def nondivisibles_in_interval(start: int, end: int, dividers):
 	"""
@@ -102,48 +98,6 @@ def find_first_divisible(start: int, end: int, div: int):
 			return n
 	return False
 
-def oddize(n: int):
-	if ((0 <= n) and (n <= 9)):
-		n = (n + 1) if (n%2 == 0) else n
-		return n
-	else:
-		return -1
-
-def evenize(n: int):
-	if ((0 <= n) and (n <= 9)):
-		n = n if (n%2 == 0) else n + 1
-		return n
-	else:
-		return -1
-
-def float_precision(num: float) -> int:
-	"""
-	Find number of digits on the right sight of the decimal point.
-	"""
-	if (num == math.trunc(num)):
-		return 0
-	else :
-		string_form = str(num)
-		num_parts = string_form.partition('.')
-	return len(num_parts[2])
-
-def float2frac(num: float) -> tuple:
-	"""
-	Converts decimal number to rational fraction in the form of tuple (n, d), where n and d are mutually prime.
-	Analog of standard library function float.as_integer_ratio()
-	"""
-	if (num == math.trunc(num)):
-		return (int(num), 1)
-	else :
-		sign = 1 if (num >= 0) else -1
-		string_form = str(abs(num))
-		num_parts = string_form.partition('.')
-		whole = int(num_parts[0])
-		frac = int(num_parts[2])
-		frac_digits = len(num_parts[2])
-		d = 10**frac_digits
-		n = (d * whole + frac)
-		return simplify_frac(n, d)
 
 def SternBrocot_list(level: int, seq_type = 'Stern-Brocot', drop_inf = False):
 	"""
