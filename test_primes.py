@@ -44,9 +44,6 @@ def test_is_prime():
 		print(nonprimes_with_problems)
 
 
-#def test_primes_quantity():
-#	pass
-
 def test_primes():
 	if (primes(25) == primes(25, 'sieve')):
 		print("Test 1 passed")
@@ -79,6 +76,17 @@ def test_primes():
 	print(primes(200, 'sieve'))
 	print(primes(800, 'sieve'))
 	print(primes(4000, 'sieve'))
+
+
+def test_primes_quantity():
+	input = [2, 3, 5, 11, 55, 100]
+	correct_output = [1, 2, 3, 5, 16, 25]
+	output = [primes_quantity(x) for x in input]
+	if (output == correct_output):
+		print("primes_quantity() works correctly")
+	else:
+		print("primes_quantity() works incorrectly:")
+		print("the output from ", input, " is ", output)
 
 
 def test_mu():

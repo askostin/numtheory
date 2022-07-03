@@ -19,22 +19,6 @@ def is_prime(n: int):
 		return True
 
 
-def primes_quantity(n: int):
-	"""
-	primes_q : N -> N
-	Finds a quantity of prime numbers in the interval [2..@n].
-	"""
-	if [2, 3].count(n):
-		return n - 1
-	else :
-		if (n % 2 == 0):
-			return primes_quantity(n - 1)
-		else :
-			q = 0
-			for i in range(5, n + 1, 2):
-				if (n == dividers.divider_min(n)):
-					q += 1
-
 def primes(n: int, method = 'general'):
 	"""
 	primes : N -> listof(N)
@@ -82,6 +66,16 @@ def primes_by_sieve(n: int):
 			if A[k]:
 				primes_lst.append(k)
 		return(primes_lst)
+
+
+def primes_quantity(n: int) -> int:
+	"""
+	Finds a quantity of prime numbers in the interval [2..@n].
+	"""
+	if (n < 2) or (not isinstance(n, int)):
+		raise ValueError("Input should be integer not less than 2.")
+	return len(primes(n))
+
 
 def prime_dividers(num: int):
 	"""
