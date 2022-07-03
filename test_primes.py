@@ -13,8 +13,8 @@ def help():
 
 help()
 
-def test_is_prime(n: int):
-	lst_corr = primes(n)
+def test_is_prime():
+	lst_corr = primes(3000)
 	lst_incorr = [x^2 for x in range (4,360,1)]
 	primes_len = len(lst_corr)
 	nonprimes_len = len(lst_incorr)
