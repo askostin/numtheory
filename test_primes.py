@@ -3,13 +3,36 @@
 from .primes import *
 from .dividers import *
 
+
 def help():
-	print("Test functions:")
-	print("test_primes()")
+	print("Test functions:\n")
 	print("test_is_prime(n)")
+	print("test_primes_quantity()")
+	print("test_primes()")
 	print("test_mu()")
 
 help()
+
+def test_is_prime(n: int):
+	lst_corr = primes(n)
+	lst_incorr = [x^2 for x in range (4,360,1)]
+	primes_len = len(lst_corr)
+	nonprimes_len = len(lst_incorr)
+	c1 = 0
+	c2 = 0
+	for i in lst_corr:
+		if is_prime(i):
+			c1 += 1
+	for i in lst_incorr:
+		if (not is_prime(i)):
+			c2 += 1
+	if (c1 == primes_len) and (c2 == nonprimes_len):
+		print("is_prime() function works correctly.")
+	else :
+		print("is_prime() function has bugs.")
+
+
+def test_primes_quantity()
 
 def test_primes():
 	if (primes(25) == primes(25, 'sieve')):
@@ -44,22 +67,6 @@ def test_primes():
 	print(primes(800, 'sieve'))
 	print(primes(4000, 'sieve'))
 
-
-def test_is_prime(n: int):
-	if n < 0:
-		raise ValueError("Enter positive integer")
-	lst = primes(n)
-	primes_len = len(lst)
-
-	counter = 0
-	for i in lst:
-		if is_prime(i):
-			counter += 1
-	if counter == primes_len:
-		print("is_prime() function works correctly.")
-		print(lst)
-	else :
-		print("is_prime() function has bugs.")
 
 def test_mu():
 	if mu(1) == 1:
