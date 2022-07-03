@@ -77,33 +77,33 @@ def primes_quantity(n: int) -> int:
 	return len(primes(n))
 
 
-def prime_dividers(num: int):
-	"""
-	dividers : int -> listof(int)
+def prime_dividers(n: int, pairs = False):
+	""" dividers : int, bool -> listof(int) | listof( (N, N) )
 	Returns sorted list of all prime dividers of the input number.
+
+	1) If (@pairs == False) find the minimal divider @d of @n
+	and unite it with recursively founded dividers of @n/@d.
+	2) If (@pairs == True) returns the list of pairs [@d @p],
+	where @d is a prime divider, and @p is the maximium power,
+	where @d**@p is still a divider of @n.
 	"""
-	# Elementary case
-	if (num == 1):
+	def aux(n):
+		if (n == 1):
+			return []
+		else :
+			d = dvs.divider_min(n)
+			s = [d]
+			return sorted([d] + aux(int(n/d)))
+	if (n <= 1):
 		return []
-	# Find the minimal divider @d of @num and unite it with recursively
-	# founded dividers of @num/@d.
-	else :
-		d = dvs.divider_min(num)
-		s = [d]
-		return sorted([d] + prime_dividers(int(num/d)))
-
-
-def prime_dividers2(num: int):
-	"""
-	dividers2 : N -> listof(list(N N))
-	Returns the list of pairs [@d @p], where @d is a prime divider,
-	and @p is the maximium power, where @d**@p is still a divider of @num.
-	"""
-	divs = prime_dividers(num)
-	s = []
-	for d in list(set(divs)):
-		s = s + [[d, len(list(filter(lambda x: x == d, divs)))]]
-	return sorted(s)
+	all_divs = aux(n)
+	if pairs:
+		s = []
+		for d in list(set(all_divs)):
+			s = s + [[d, len(list(filter(lambda x: x == d, all_divs)))]]
+		return sorted(s)
+	else:
+		return sorted(list(set(all_divs)))
 
 
 def phi(m: int) -> int:
@@ -121,7 +121,7 @@ def phi(m: int) -> int:
 	elif (m == 1 or m == 2):
 		return 1
 	else:
-		prime_dividers = [pair[0] for pair in prime_dividers2(m)]
+		prime_dividers = [pair[0] for pair in prime_dividers(m, True)]
 		n = 1
 		d = 1
 		for p in prime_dividers: # Fix code here
@@ -139,7 +139,7 @@ def mu(m: int) -> int:
 	elif (m == 1):
 		return 1
 	else:
-		all_dividers = prime_dividers2(m)
+		all_dividers = prime_dividers(m, True)
 		dividers_powers = [pair[1] for pair in all_dividers]
 		tmp = 1
 		for pow in dividers_powers:

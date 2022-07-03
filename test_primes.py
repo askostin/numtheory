@@ -44,6 +44,39 @@ def test_is_prime():
 		print(nonprimes_with_problems)
 
 
+def test_prime_dividers():
+	input = [1, 12, 55, 100, 2047, 11011, 11111]
+	output1_corr = [ \
+		[], \
+		[2, 3], \
+		[5, 11], \
+		[2, 5], \
+		[23, 89], \
+		[7, 11, 13], \
+		[41, 271]]
+	output2_corr = [ \
+		[], \
+		[[2, 2], [3, 1]], \
+		[[5, 1], [11, 1]], \
+		[[2, 2], [5, 2]], \
+		[[23, 1], [89, 1]], \
+		[[7, 1], [11, 2], [13, 1]], \
+		[[41, 1], [271, 1]]]
+	output1 = [prime_dividers(x, False) for x in input]
+	output2 = [prime_dividers(x, True) for x in input]
+	if (output1 == output1_corr) and (output2 == output2_corr):
+		print("prime_dividers() works correctly")
+	else:
+		print("prime_dividers() doesn't work correctly:")
+		print("the output(s) from ", input)
+	if (output1 != output1_corr):
+		print("in short form is")
+		print(output1)
+	if (output2 != output2_corr):
+		print("in full paired form is")
+		print(output2)
+
+
 def test_primes():
 	if (primes(25) == primes(25, 'sieve')):
 		print("Test 1 passed")
