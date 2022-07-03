@@ -51,11 +51,11 @@ def primes(n: int, method = 'general'):
 		primes_lst = primes_by_sieve(L)
 		# Process the intervals [k*L + 1, k*L + L], k = 1..L-1
 		for k in range (1, L):
-			primes_lst +=
+			primes_lst += \
 				dvs.nondivisibles_in_interval(k*L + 1, (k + 1)*L, primes_lst)
 		# process the interval [L*L + 1, n]
 		if (L*L < n):
-			primes_lst +=
+			primes_lst += \
 				dvs.nondivisibles_in_interval(L*L + 1, n, primes_lst)
 		return primes_lst
 

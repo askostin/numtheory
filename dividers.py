@@ -17,7 +17,7 @@ def simplify_frac(pair: tuple) -> tuple:
 	n = pair[0]
 	d = pair[1]
 	if ((type(n) != int) or (type(d) != int) or (d < 0)):
-		raise ValueError('Both numbers in pair have to be integers,
+		raise ValueError('Both numbers in pair have to be integers,\
 			the second should be positive.')
 	elif (d == 0):
 		return (1, 0)
@@ -206,8 +206,8 @@ def encode_sternbrocot(number, limit_length = True, max_length = 20):
 	elif (type(number) is float):
 		return convert_pair(float2frac(number))
 	else:
-		print("Input number should not be negative, and have to be integer,
-			float, or rational fraction represented by tuple (m, n),
+		print("Input number should not be negative, and have to be integer, \
+			float, or rational fraction represented by tuple (m, n), \
 			where m and n are non-negative integers.")
 
 
@@ -228,8 +228,8 @@ def decode_sternbrocot(code: str) -> float:
 			adj_number = left_number
 			right_number = curr_number
 		else:
-			raise ValueError("Wrong code! Only 'L' and 'R' symbols
-				are allowed.")
+			raise ValueError("Wrong code! \
+				Only 'L' and 'R' symbols are allowed.")
 
 		curr_number = simplify_frac((curr_number[0] + adj_number[0],
 									 curr_number[1] + adj_number[1]))
