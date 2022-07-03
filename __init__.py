@@ -1,3 +1,1 @@
-from .main import *
-
-__all__ = ["dividers", "primes"]
+__all__ = ["main", "dividers", "primes"]

@@ -3,36 +3,49 @@
 from .primes import *
 from .dividers import *
 
-
 def help():
 	print("Test functions:\n")
-	print("test_is_prime(n)")
+	print("test_is_prime()")
 	print("test_primes_quantity()")
 	print("test_primes()")
 	print("test_mu()")
 
-help()
+#help()
 
 def test_is_prime():
 	lst_corr = primes(3000)
-	lst_incorr = [x^2 for x in range (4,360,1)]
+	lst_incorr = [x**2 for x in range(4,36)]
 	primes_len = len(lst_corr)
 	nonprimes_len = len(lst_incorr)
 	c1 = 0
 	c2 = 0
-	for i in lst_corr:
-		if is_prime(i):
+	primes_with_problems = []
+	nonprimes_with_problems = []
+	for x in lst_corr:
+		if is_prime(x):
 			c1 += 1
-	for i in lst_incorr:
-		if (not is_prime(i)):
+		else:
+			primes_with_problems.append(x)
+	for x in lst_incorr:
+		if (not is_prime(x)):
 			c2 += 1
+		else:
+			nonprimes_with_problems.append(x)
 	if (c1 == primes_len) and (c2 == nonprimes_len):
 		print("is_prime() function works correctly.")
 	else :
-		print("is_prime() function has bugs.")
+		print("is_prime() has bugs:")
+		if (c1 != primes_len):
+			print("counted {} as primes from {} primes".format(c1, primes_len))
+			print(primes_with_problems)
+		if (c2 != nonprimes_len):
+			print("counted {} as non-primes from {} non-primes".\
+				format(c2, nonprimes_len))
+		print(nonprimes_with_problems)
 
 
-def test_primes_quantity()
+#def test_primes_quantity():
+#	pass
 
 def test_primes():
 	if (primes(25) == primes(25, 'sieve')):
