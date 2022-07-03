@@ -10,12 +10,15 @@ def gcd(a, b: int) -> int:
 
 def simplify_frac(pair: tuple) -> tuple:
 	"""
-	For pair (a, b) of two integers (b > 0), which represents fraction a/b, return simplified fraction, where nominator and denominator are divided to their GCD.
+	For pair (a, b) of two integers (b > 0), which represents fraction a/b,
+	return simplified fraction, where nominator and denominator are divided
+	to their GCD.
 	"""
 	n = pair[0]
 	d = pair[1]
 	if ((type(n) != int) or (type(d) != int) or (d < 0)):
-		raise ValueError('Both numbers in pair have to be integers, the second should be positive.')
+		raise ValueError('Both numbers in pair have to be integers,
+			the second should be positive.')
 	elif (d == 0):
 		return (1, 0)
 	else:
@@ -29,8 +32,9 @@ def simplify_frac(pair: tuple) -> tuple:
 
 def float2frac(num: float) -> tuple:
 	"""
-	Converts decimal number to rational fraction in the form of tuple (n, d), where n and d are mutually prime.
-	Analog of standard library function float.as_integer_ratio()
+	Converts decimal number to rational fraction in the form of tuple
+	(n, d), where n and d are mutually prime. Analog of standard library
+	function float.as_integer_ratio()
 	"""
 	if (num == math.trunc(num)):
 		return (int(num), 1)
@@ -49,7 +53,8 @@ def float2frac(num: float) -> tuple:
 def divider_min(n: int) -> int:
 	"""
 	divider_min : int -> int/string
-	Returns the smallest divider (>1) of the input number (>1). If the number is prime, return an empty string ''.
+	Returns the smallest divider (>1) of the input number (>1).
+	If the number is prime, return an empty string ''.
 	"""
 	if ((n % 2) == 0):
 		return 2
@@ -66,8 +71,10 @@ def divider_min(n: int) -> int:
 def nondivisibles_in_interval(start: int, end: int, dividers):
 	"""
 	nondivisibles_in_interval(N N listof(N)) -> listof(N)
-	Returns list of all numbers in the interval [@start, @end], where each number cannot be divided to any number from @dividers list.
-	There is no repeats in @dividers, this list is sorted in the ascending order, all elements are integers >= 2.
+	Returns list of all numbers in the interval [@start, @end],
+	where each number cannot be divided to any number from @dividers list.
+	There is no repeats in @dividers, this list is sorted in the ascending
+	order, all elements are integers >= 2.
 	"""
 	dividers = dividers or []
 	if (start > end or dividers == []):
@@ -91,7 +98,8 @@ def nondivisibles_in_interval(start: int, end: int, dividers):
 def find_first_divisible(start: int, end: int, div: int):
 	"""
 	find_first_divisible : N N N -> N or False
-	Find the first number in the interval [@start, @end] which is divisible to @div.
+	Find the first number in the interval [@start, @end]
+	which is divisible to @div.
 	"""
 	for n in range(start, end + 1):
 		if n%div == 0:
@@ -99,13 +107,23 @@ def find_first_divisible(start: int, end: int, div: int):
 	return False
 
 
-def SternBrocot_list(level: int, seq_type = 'Stern-Brocot', drop_inf = False):
+def SternBrocot_list(
+		level: int,
+		seq_type = 'Stern-Brocot',
+		drop_inf = False
+	):
 	"""
 	SternBrocot_list : N, str, bool -> listof((N, N))
-	SternBrocot_list(level, drop_inf) creates list of fractions, based on Stern-Brocot tree (in the interval [0, +inf]) or Farray sequence (in the interval [0, 1]):
-		- level (int) - depth of the tree, number of iterations when we insert new fractions;
-		- seq_type (str) - 'Stern-Brocot' (default) or 'Farray' sequence (list) to build;
-		- drop_inf (bool, default = False) - should we remove the tuple (1, 0)  (by definition, fraction 1/0 = +infinity) from Stern-Brocot output sequence.
+	SternBrocot_list(level, drop_inf) creates list of fractions,
+	based on Stern-Brocot tree (in the interval [0, +inf]) or
+	Farray sequence (in the interval [0, 1]):
+		- level (int) - depth of the tree, number of iterations
+		  when we insert new fractions;
+		- seq_type (str) - 'Stern-Brocot' (default) or
+		  'Farray' sequence (list) to build;
+		- drop_inf (bool, default = False) - should we
+		  remove the tuple (1, 0)  (by definition, fraction 1/0 = +infinity)
+		  from Stern-Brocot output sequence.
 	Representation:
 		Fraction m/n is represented by tuple (m, n).
 	Examples:
@@ -118,7 +136,8 @@ def SternBrocot_list(level: int, seq_type = 'Stern-Brocot', drop_inf = False):
 		- list for level 1 tree: [(0, 1), (1, 2), (1, 1)]
 		- list for level 2 tree: [(0, 1), (1, 3), (1, 1), (2, 3), (1, 1)]
 	Algorithm:
-		Between each two adjacent tuples (m, n) and (m', n') we place the new tuple (m + m', n + n').
+		Between each two adjacent tuples (m, n) and (m', n')
+	we place the new tuple (m + m', n + n').
 	"""
 
 	def insert_tuples(lst: list, n: int):
@@ -159,7 +178,8 @@ def encode_sternbrocot(number, limit_length = True, max_length = 20):
 			* tuple (m, n), which represents the rational fraction m/n;
 		- limit_length - whether we should constraint,
 		- S = {'L', 'R'}.
-	Write 'path' to a input fraction through the Stern-Brocot tree, where 'L' is for 'left', 'R' is for 'right'.
+	Write 'path' to a input fraction through the Stern-Brocot tree,
+	where 'L' is for 'left', 'R' is for 'right'.
 	"""
 	def convert_pair(pair: tuple):
 		m = pair[0]
@@ -186,12 +206,15 @@ def encode_sternbrocot(number, limit_length = True, max_length = 20):
 	elif (type(number) is float):
 		return convert_pair(float2frac(number))
 	else:
-		print("Input number should not be negative, and have to be integer, float, or rational fraction represented by tuple (m, n), where m and n are non-negative integers.")
+		print("Input number should not be negative, and have to be integer,
+			float, or rational fraction represented by tuple (m, n),
+			where m and n are non-negative integers.")
 
 
 def decode_sternbrocot(code: str) -> float:
 	"""
-	Convert code for number in Stern-Brocot tree in the form 'LRRLRLLL...' back to the number itself.
+	Convert code for number in Stern-Brocot tree in the form 'LRRLRLLL...'
+	back to the number itself.
 	"""
 	left_number = (0, 1)
 	curr_number = (1, 1)
@@ -205,7 +228,8 @@ def decode_sternbrocot(code: str) -> float:
 			adj_number = left_number
 			right_number = curr_number
 		else:
-			raise ValueError("Wrong code! Only 'L' and 'R' symbols are allowed.")
+			raise ValueError("Wrong code! Only 'L' and 'R' symbols
+				are allowed.")
 
 		curr_number = simplify_frac((curr_number[0] + adj_number[0],
 									 curr_number[1] + adj_number[1]))

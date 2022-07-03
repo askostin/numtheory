@@ -1,5 +1,5 @@
 import math
-from . import dividers
+from . import dividers as dvs
 
 
 def is_prime(n: int):
@@ -51,17 +51,20 @@ def primes(n: int, method = 'general'):
 		primes_lst = primes_by_sieve(L)
 		# Process the intervals [k*L + 1, k*L + L], k = 1..L-1
 		for k in range (1, L):
-			primes_lst += dividers.nondivisibles_in_interval(k*L + 1, (k + 1)*L, primes_lst)
+			primes_lst +=
+				dvs.nondivisibles_in_interval(k*L + 1, (k + 1)*L, primes_lst)
 		# process the interval [L*L + 1, n]
 		if (L*L < n):
-			primes_lst += dividers.nondivisibles_in_interval(L*L + 1, n, primes_lst)
+			primes_lst +=
+				dvs.nondivisibles_in_interval(L*L + 1, n, primes_lst)
 		return primes_lst
 
 
 def primes_by_sieve(n: int):
 	"""
 	primes_list_by_sieve : N -> listof(N)
-	For @n >=2 finds all prime numbers in the range [2, n] by the classical "Sieve of Eratosthenes" method.
+	For @n >=2 finds all prime numbers in the range [2, n] by the classical
+	"Sieve of Eratosthenes" method.
 	"""
 	if (n <= 1):
 		return -1
@@ -88,9 +91,10 @@ def prime_dividers(num: int):
 	# Elementary case
 	if (num == 1):
 		return []
-	# Find the minimal divider @d of @num and unite it with recursively founded dividers of @num/@d.
+	# Find the minimal divider @d of @num and unite it with recursively
+	# founded dividers of @num/@d.
 	else :
-		d = dividers.divider_min(num)
+		d = dvs.divider_min(num)
 		s = [d]
 		return sorted([d] + prime_dividers(int(num/d)))
 
@@ -98,18 +102,20 @@ def prime_dividers(num: int):
 def prime_dividers2(num: int):
 	"""
 	dividers2 : N -> listof(list(N N))
-	Returns the list of pairs [@d @p], where @d is a prime divider, and @p is the maximium power, where @d**@p is still a divider of @num.
+	Returns the list of pairs [@d @p], where @d is a prime divider,
+	and @p is the maximium power, where @d**@p is still a divider of @num.
 	"""
-	dvs = prime_dividers(num)
+	divs = prime_dividers(num)
 	s = []
-	for d in list(set(dvs)):
-		s = s + [[d, len(list(filter(lambda x: x == d, dvs)))]]
+	for d in list(set(divs)):
+		s = s + [[d, len(list(filter(lambda x: x == d, divs)))]]
 	return sorted(s)
 
 
 def phi(m: int) -> int:
 	"""
-	Euler phi function phi(@m) returns quantity of whole numbers in the set {0, 1,... , m - 1}, which are mutually prime with @m.
+	Euler phi function phi(@m) returns quantity of whole numbers in the set
+	{0, 1,... , m - 1}, which are mutually prime with @m.
 	Examples:
 	phi(1) = 1
 	phi(p) = p - 1 (p is a prime number)
