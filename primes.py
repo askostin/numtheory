@@ -121,10 +121,10 @@ def phi(m: int) -> int:
 	elif (m == 1 or m == 2):
 		return 1
 	else:
-		prime_dividers = [pair[0] for pair in prime_dividers(m, True)]
+		p_divs = [pair[0] for pair in prime_dividers(m, True)]
 		n = 1
 		d = 1
-		for p in prime_dividers: # Fix code here
+		for p in p_divs:
 			n *= p-1
 			d *= p
 		return (n*m)//d

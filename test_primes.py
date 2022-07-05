@@ -113,13 +113,34 @@ def test_primes():
 
 def test_primes_quantity():
 	input = [2, 3, 5, 11, 55, 100]
-	correct_output = [1, 2, 3, 5, 16, 25]
+	output_correct = [1, 2, 3, 5, 16, 25]
 	output = [primes_quantity(x) for x in input]
-	if (output == correct_output):
+	if (output == output_correct):
 		print("primes_quantity() works correctly")
 	else:
 		print("primes_quantity() works incorrectly:")
 		print("the output from ", input, " is ", output)
+
+
+def test_phi():
+	input = \
+		[1] + \
+		[7, 47, 83, 103, 701, 1289, 2557, 3571] + \
+		[2**2, 5**2, 11**2, 41**2] + \
+		[12, 18, 36]
+	output_correct = \
+		[1] + \
+		[6, 46, 82, 102, 700, 1288, 2556, 3570] + \
+		[2, 20, 11**2-11, 41**2-41] + \
+		[4, 6, 12]
+	output = [phi(x) for x in input]
+	if (output == output_correct):
+		print("phi() works correctly")
+	else:
+		print("phi works incorrectly:")
+		for i, o, o_c in zip(input, output, output_correct):
+			if o != o_c:
+				print("phi({}) = {}, have to be {}".format(i, o, o_c))
 
 
 def test_mu():
