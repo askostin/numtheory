@@ -1,4 +1,4 @@
-# Test our functions
+# Test functions from dividers.py module
 
 from .primes import *
 from .dividers import *
@@ -9,8 +9,6 @@ def help():
 	print("test_primes_quantity()")
 	print("test_primes()")
 	print("test_mu()")
-
-#help()
 
 def test_is_prime():
 	lst_corr = primes(3000)
