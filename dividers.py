@@ -68,7 +68,7 @@ def divider_min(n: int) -> int:
 		return n
 
 
-def nondivisibles_in_interval(start: int, end: int, dividers):
+def nondivisibles(start: int, end: int, dividers):
 	"""
 	nondivisibles_in_interval(N N listof(N)) -> listof(N)
 	Returns list of all numbers in the interval [@start, @end],
@@ -83,10 +83,10 @@ def nondivisibles_in_interval(start: int, end: int, dividers):
 	L = (end - start + 1)
 	A = [True]*L
 	for d in dividers:
-		first_divisible = find_first_divisible(start, end, d)
-		if first_divisible:
-			A[first_divisible - start] = False
-			for num in range(first_divisible + d, end + 1, d):
+		first_div = first_divisible(start, end, d)
+		if first_div:
+			A[first_div - start] = False
+			for num in range(first_div + d, end + 1, d):
 				A[num - start] = False
 	d_list = []
 	for i in range(0, L):
@@ -95,9 +95,9 @@ def nondivisibles_in_interval(start: int, end: int, dividers):
 	return d_list
 
 
-def find_first_divisible(start: int, end: int, div: int):
+def first_divisible(start: int, end: int, div: int):
 	"""
-	find_first_divisible : N N N -> N or False
+	first_divisible : N N N -> N or False
 	Find the first number in the interval [@start, @end]
 	which is divisible to @div.
 	"""
@@ -107,14 +107,14 @@ def find_first_divisible(start: int, end: int, div: int):
 	return False
 
 
-def SternBrocot_list(
+def sternbrocot_list(
 		level: int,
 		seq_type = 'Stern-Brocot',
 		drop_inf = False
 	):
 	"""
-	SternBrocot_list : N, str, bool -> listof((N, N))
-	SternBrocot_list(level, drop_inf) creates list of fractions,
+	sternbrocot_list : N, str, bool -> listof((N, N))
+	sternbrocot_list(level, drop_inf) creates list of fractions,
 	based on Stern-Brocot tree (in the interval [0, +inf]) or
 	Farray sequence (in the interval [0, 1]):
 		- level (int) - depth of the tree, number of iterations
