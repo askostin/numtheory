@@ -22,32 +22,29 @@ def simplify_frac(pair: tuple) -> tuple:
 	elif (d == 0):
 		return (1, 0)
 	else:
-		sign = -1 if (n < 0) else 1
-		gcd_nd = gcd(n, d)
+		gcd_nd = gcd(abs(n), d)
 		if (gcd_nd != 1):
-			n /= gcd_nd
-			d /= gcd_nd
-		return (int(sign * n), int(d))
+			n = n / gcd_nd
+			d = d / gcd_nd
+		return (int(n), int(d))
 
 
 def float2frac(num: float) -> tuple:
-	"""
-	Converts decimal number to rational fraction in the form of tuple
+	""" Converts decimal number to rational fraction in the form of tuple
 	(n, d), where n and d are mutually prime. Analog of standard library
 	function float.as_integer_ratio()
 	"""
 	if (num == math.trunc(num)):
 		return (int(num), 1)
-	else :
-		sign = 1 if (num >= 0) else -1
-		string_form = str(abs(num))
-		num_parts = string_form.partition('.')
-		whole = int(num_parts[0])
-		frac = int(num_parts[2])
-		frac_digits = len(num_parts[2])
-		d = 10**frac_digits
-		n = (d * whole + frac)
-		return simplify_frac(n, d)
+	sign = 1 if (num >= 0) else -1
+	string_form = str(abs(num))
+	num_parts = string_form.partition('.')
+	whole = int(num_parts[0])
+	frac = int(num_parts[2])
+	frac_digits = len(num_parts[2])
+	d = 10**frac_digits
+	n = sign*(d * whole + frac)
+	return simplify_frac((n, d))
 
 
 def divider_min(n: int) -> int:
