@@ -160,9 +160,7 @@ def sternbrocot_list(
 
 
 def encode_sternbrocot(number, limit_length = True, max_length = 20):
-	"""
-	encode_sternbrocot : number, limit_length, max_length -> stringof(S)
-	encode_sternbrocot : int/float/tuple, bool, int -> stringof(sym)
+	"""encode_sternbrocot : number, limit_length, max_length -> stringof(S)
 	where:
 		- number can be:
 			* integer number,
@@ -208,8 +206,7 @@ def encode_sternbrocot(number, limit_length = True, max_length = 20):
 
 
 def decode_sternbrocot(code: str) -> float:
-	"""
-	Convert code for number in Stern-Brocot tree in the form 'LRRLRLLL...'
+	"""Convert code for number in Stern-Brocot tree in the form 'LRRLRLLL...'
 	back to the number itself.
 	"""
 	left_number = (0, 1)
@@ -227,7 +224,10 @@ def decode_sternbrocot(code: str) -> float:
 			raise ValueError("Wrong code! \
 				Only 'L' and 'R' symbols are allowed.")
 
-		curr_number = simplify_frac((curr_number[0] + adj_number[0],
-									 curr_number[1] + adj_number[1]))
+		curr_number = \
+			simplify_frac(
+				(curr_number[0] + adj_number[0],
+				 curr_number[1] + adj_number[1])
+			)
 
 	return curr_number
