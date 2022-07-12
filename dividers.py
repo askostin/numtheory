@@ -48,11 +48,10 @@ def float2frac(num: float) -> tuple:
 
 
 def divider_min(n: int) -> int:
+	"""Returns the smallest divider (> 1) of the input number (>1).
 	"""
-	divider_min : int -> int/string
-	Returns the smallest divider (>1) of the input number (>1).
-	If the number is prime, return an empty string ''.
-	"""
+	if ((n < 2) or (not isinstance(n, int))):
+		raise ValueError('Input number has to be integer > 1.')
 	if ((n % 2) == 0):
 		return 2
 	else:
