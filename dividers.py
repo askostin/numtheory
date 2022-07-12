@@ -9,8 +9,7 @@ def gcd(a, b: int) -> int:
 
 
 def simplify_frac(pair: tuple) -> tuple:
-	"""
-	For pair (a, b) of two integers (b > 0), which represents fraction a/b,
+	"""For pair (a, b) of two integers (b > 0), which represents fraction a/b,
 	return simplified fraction, where nominator and denominator are divided
 	to their GCD.
 	"""
@@ -30,7 +29,7 @@ def simplify_frac(pair: tuple) -> tuple:
 
 
 def float2frac(num: float) -> tuple:
-	""" Converts decimal number to rational fraction in the form of tuple
+	"""Converts decimal number to rational fraction in the form of tuple
 	(n, d), where n and d are mutually prime. Analog of standard library
 	function float.as_integer_ratio()
 	"""
@@ -65,9 +64,7 @@ def divider_min(n: int) -> int:
 
 
 def nondivisibles(start: int, end: int, dividers):
-	"""
-	nondivisibles_in_interval(N N listof(N)) -> listof(N)
-	Returns list of all numbers in the interval [@start, @end],
+	"""Returns list of all numbers in the interval [@start, @end],
 	where each number cannot be divided to any number from @dividers list.
 	There is no repeats in @dividers, this list is sorted in the ascending
 	order, all elements are integers >= 2.
@@ -92,24 +89,22 @@ def nondivisibles(start: int, end: int, dividers):
 
 
 def first_divisible(start: int, end: int, div: int):
-	"""
-	first_divisible : N N N -> N or False
-	Find the first number in the interval [@start, @end]
+	"""Finds the first number in the interval [@start, @end]
 	which is divisible to @div.
 	"""
 	for n in range(start, end + 1):
 		if n%div == 0:
 			return n
-	return False
+	return None
 
 
 def sternbrocot_list(
 		level: int,
+		/,
 		seq_type = 'Stern-Brocot',
 		drop_inf = False
 	):
-	"""
-	sternbrocot_list : N, str, bool -> listof((N, N))
+	"""sternbrocot_list : N, str, bool -> listof((N, N))
 	sternbrocot_list(level, drop_inf) creates list of fractions,
 	based on Stern-Brocot tree (in the interval [0, +inf]) or
 	Farray sequence (in the interval [0, 1]):
@@ -143,7 +138,9 @@ def sternbrocot_list(
 			iterations = len(lst) - 1
 			new_tuples = []
 			for i in range(iterations):
-				new_tuples.append( simplify_frac(nom, den) )
+				nom = lst[i][0] + lst[i+1][0]
+				den = lst[i][1] + lst[i+1][1]
+				new_tuples.append( simplify_frac((nom, den)) )
 			new_lst = []
 			for i in range(iterations):
 				new_lst = new_lst + [lst[i], new_tuples[i]]
@@ -152,15 +149,14 @@ def sternbrocot_list(
 
 	if level < 0:
 		return ("Level should be >= 0")
-	else :
-		if (seq_type == 'Farray'):
-			lst = [(0, 1), (1, 1)]
-			result = insert_tuples(lst, level)
-		elif (seq_type == 'Stern-Brocot'):
-			lst = [(0, 1), (1, 0)]
-			result = insert_tuples(lst, level)
-			result = result[:-1] if drop_inf else result
-		return result
+	if (seq_type == 'Farray'):
+		lst = [(0, 1), (1, 1)]
+		result = insert_tuples(lst, level)
+	else:
+		lst = [(0, 1), (1, 0)]
+		result = insert_tuples(lst, level)
+		result = result[:-1] if drop_inf else result
+	return result
 
 
 def encode_sternbrocot(number, limit_length = True, max_length = 20):
