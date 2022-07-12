@@ -1,13 +1,15 @@
 # Test functions from dividers.py module
 
-from ..primes import *
-from ..dividers import *
+from numtheory.primes import *
+from numtheory.dividers import *
 
 def help():
 	print("Test functions:\n")
 	print("test_is_prime()")
-	print("test_primes_quantity()")
+	print("test_prime_dividers()")
 	print("test_primes()")
+	print("test_primes_quantity()")
+	print("test_phi()")
 	print("test_mu()")
 
 def test_is_prime():
@@ -97,16 +99,8 @@ def test_primes():
 		print("Test 4 failed")
 
 	print("***************************************")
-
-	print(primes(7, 'sieve'))
-	print(nondivisibles_in_interval(2, 49, primes(7, 'sieve')))
-
-	#print(primes.primes(4000))
-
-	print("***************************************")
-	print(primes(200, 'sieve'))
-	print(primes(800, 'sieve'))
-	print(primes(4000, 'sieve'))
+	print("Prime numbers in the range [1, 2000]:")
+	print(primes(2000))
 
 
 def test_primes_quantity():
@@ -166,3 +160,18 @@ def test_mu():
 		print("Passed: mu(11) == -1")
 	if mu(12) == 0:
 		print("Passed: mu(12) == 0")
+
+
+if __name__ == '__main__':
+	print("\nTesting test_is_prime():")
+	test_is_prime()
+	print("\nTesting test_prime_dividers():")
+	test_prime_dividers()
+	print("\nTesting test_primes():")
+	test_primes()
+	print("\nTesting test_primes_quantity():")
+	test_primes_quantity()
+	print("\nTesting test_phi():")
+	test_phi()
+	print("\nTesting test_mu():")
+	test_mu()
