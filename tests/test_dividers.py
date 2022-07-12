@@ -119,29 +119,12 @@ def test_decode_sternbrocot():
 
 
 if __name__ == "__main__":
-	print("\nTesting gcd():")
 	test_gcd()
-
-	print("\nTesting simplify_frac():")
 	test_simplify_frac()
-
-	print("\nTesting float2frac():")
 	test_float2frac()
-
-	print("\nTesting divider_min():")
 	test_divider_min()
-
-	print("\nTesting nondivisibles():")
 	test_nondivisibles()
-
-	print("\nTesting first_divisible():")
 	test_first_divisible()
-
-	print("\nTesting sternbrocot_list():")
 	test_sternbrocot_list()
-
-	print("\nTesting encode_sternbrocot():")
 	test_encode_sternbrocot()
-
-	print("\nTesting decode_sternbrocot():")
 	test_decode_sternbrocot()
