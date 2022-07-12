@@ -180,6 +180,7 @@ def encode_sternbrocot(number, limit_length = True, max_length = 20):
 			return 'RRR...'
 		m, n = simplify_frac(pair)
 		code = ''
+		i = 0
 		while (m != n):
 			if (m < n):
 				code += 'L'
@@ -187,6 +188,9 @@ def encode_sternbrocot(number, limit_length = True, max_length = 20):
 			else :
 				code += 'R'
 				m = m - n
+			i += 1
+			if (limit_length and i >= max_length):
+				return code
 		return code
 
 	if ((type(number) is tuple) and (len(number) == 2)):
