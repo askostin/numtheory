@@ -1,7 +1,7 @@
 # Test functions from dividers.py module
 
-from .primes import *
-from .dividers import *
+from ..primes import *
+from ..dividers import *
 
 def help():
 	print("Test functions:\n")
