@@ -14,6 +14,10 @@ def permutations(n: int):
 	aux(s)
 	return list(set([int(x) for x in perms]))
 
-# For given list of n various elements find number of combinations
-# of k elements C_n^k.
-def combinations
+# For given list of n numbers build list of all combinations
+# of k elements from this list.
+def combinations(lon: list, k: int):
+	...
+	combs = []
+	def aux(m: int, prefix = []):
+		...
